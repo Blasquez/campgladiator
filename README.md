@@ -15,7 +15,10 @@ In order to test and try it out the API, a swagger could be find in [http://loca
 __Maven__
 
  - Java version: 11
- Under the folder /target, run the command *java -jar trainermanagement-1.0.0.jar*
+ 
+ - On the root folder of the project, run the command *mvn package*
+ 
+ - Under the folder /target, run the command *java -jar trainermanagement-1.0.0.jar*
  
 __Docker__
 
