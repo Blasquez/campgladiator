@@ -34,6 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/trainers")
 @Tag(name = "trainer", description = "Trainer Management")
+@SecurityRequirement(name = "basicAuth")
 public class TrainerController {
 	
 	@Autowired

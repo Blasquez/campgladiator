@@ -4,7 +4,12 @@ Trainer Management is an API to allowed the users to create, list, get and delet
 
 ## Security
 
-Not implemented yet
+In order to perform any request for path URI /trainers/* a basic authentication mechanism is required.
+ 
+- User: test
+- Password: test
+
+
 
 ## Swagger
 
