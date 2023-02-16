@@ -12,11 +12,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Override
     protected void configure(final HttpSecurity http) throws Exception {
-    	http.csrf().disable()
-    		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    	http.headers().frameOptions().sameOrigin()
+    		.and()
+    		.csrf().disable()
+    	    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     		.and()
     		.authorizeRequests()
-    		.antMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console").permitAll()
+    		.antMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**").permitAll()
     		.antMatchers("/trainers/**").authenticated()
     		.and()
     		.httpBasic();

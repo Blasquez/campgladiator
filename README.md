@@ -15,19 +15,33 @@ In order to perform any request for path URI /trainers/* a basic authentication 
 
 In order to test and try it out the API, a swagger could be find in [http://localhost:8080/swagger-ui.html]([http://localhost:8080/swagger-ui.html])
 
+## Database
+
+__H2 Databse__
+
+- Console URL: http://localhost:8080/h2-console
+- Driver Class: org.h2.Driver
+- JDBC URL: jdbc:h2:mem:localdb
+- User Name: sa
+- Password: password
+
 ## Running
 
 __Maven__
 
  - Java version: 11
  
- - On the root folder of the project, run the command *mvn package*
+ - On the root folder of the project, run the command *mvn clean package*
  
  - Under the folder /target, run the command *java -jar trainermanagement-1.0.0.jar*
  
 __Docker__
 
  - On the root folder of the project, run the command *docker compose up*
+ 
+__Host__     
+
+ - [http://localhost:8080]([http://localhost:8080]) 
 
 ## Trainer Management
 
@@ -67,7 +81,7 @@ __POST /trainers__  - Creates a new trainer
 __GET /trainers/{trainerId}__  - Retrieves a trainer
 
 *PathParam* 
-- trainerId - The trainer identification ( ID ) - required: true
+- trainerId - The trainer identification ( ID ) - required: true - type: Path Variable
 
 *Request Body*  -  __No__
 

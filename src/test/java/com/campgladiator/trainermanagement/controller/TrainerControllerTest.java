@@ -45,6 +45,7 @@ public class TrainerControllerTest {
     void postTrainerSuccessfully() throws Exception {
 		mockMvc.perform(post("/trainers")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Basic dGVzdDp0ZXN0")
                 .content("{\"email\":\"diego_blasquez@teste.com\",\"phone\": \"1234567890\",\"first_name\" : \"Diego_Test\",\"last_name\" : \"Blasquez\"}"))
         .andExpect(status().isCreated())
         .andExpect(header().string("Location", "/trainers/trainer-id-000001"));
@@ -57,6 +58,7 @@ public class TrainerControllerTest {
     void postTrainer_thenEntityAlreadyAddedException() throws Exception {
 		mockMvc.perform(post("/trainers")
 				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Basic dGVzdDp0ZXN0")
                 .content("{\"email\":\"diego_blasquez@teste.com\",\"phone\": \"1234567890\",\"first_name\" : \"Diego_Test\",\"last_name\" : \"Blasquez\"}"))
         .andExpect(status().isConflict());
 	}
@@ -65,7 +67,7 @@ public class TrainerControllerTest {
     @Order(3)
     @DisplayName("Happy Path - Returns the trainer filtered by ID")
     void getTrainer() throws Exception{
-		MvcResult trainer = mockMvc.perform(get("/trainers/trainer-id-000001"))
+		MvcResult trainer = mockMvc.perform(get("/trainers/trainer-id-000001").header("Authorization", "Basic dGVzdDp0ZXN0"))
         	.andExpect(status().isOk())
         	.andReturn();
 		
@@ -77,7 +79,7 @@ public class TrainerControllerTest {
     @Order(4)
     @DisplayName("404 -TreinerController.getTrainer(treiner) returns 404. Trainer not found.")
     void getTrainerById_thenNotFoundExcepetion() throws Exception{
-		mockMvc.perform(get("/trainers/trainer-id-000002"))
+		mockMvc.perform(get("/trainers/trainer-id-000002").header("Authorization", "Basic dGVzdDp0ZXN0"))
 	        	.andExpect(status().isNotFound());
 	}
 	
@@ -87,6 +89,7 @@ public class TrainerControllerTest {
     void postTrainer_thenBadRequestException_emailRequired() throws Exception {
 		mockMvc.perform(post("/trainers")
 				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Basic dGVzdDp0ZXN0")
                 .content("{\"phone\": \"1234567890\",\"first_name\" : \"Diego_Test\",\"last_name\" : \"Blasquez\"}"))
         .andExpect(status().isBadRequest());
 	}
@@ -97,6 +100,7 @@ public class TrainerControllerTest {
     void postTrainer_thenBadRequestException_emailNotValid() throws Exception {
 		mockMvc.perform(post("/trainers")
 				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Basic dGVzdDp0ZXN0")
                 .content("{\"email\":\"diego_blasquez\",\"phone\": \"1234567890\",\"first_name\" : \"Diego_Test\",\"last_name\" : \"Blasquez\"}"))
         .andExpect(status().isBadRequest());
 	}
@@ -107,6 +111,7 @@ public class TrainerControllerTest {
     void postTrainer_thenBadRequestException_firstNameRequired() throws Exception {
 		mockMvc.perform(post("/trainers")
 				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Basic dGVzdDp0ZXN0")
                 .content("{\"email\":\"diego_blasquez\",\"phone\": \"1234567890\",\"last_name\" : \"Blasquez\"}"))
         .andExpect(status().isBadRequest());
 	}
@@ -117,7 +122,27 @@ public class TrainerControllerTest {
     void postTrainer_thenBadRequestException_phoneNotValid() throws Exception {
 		mockMvc.perform(post("/trainers")
 				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Basic dGVzdDp0ZXN0")
                 .content("{\"email\":\"diego_blasquez@teste.com\",\"phone\": \"1234567890hh\",\"first_name\" : \"Diego_Test\",\"last_name\" : \"Blasquez\"}"))
         .andExpect(status().isBadRequest());
+	}
+	
+	@Test
+    @Order(9)
+    @DisplayName("POST Trainer Unauthorized")
+    void postTrainerUnauthorized() throws Exception {
+		mockMvc.perform(post("/trainers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"diego_blasquez@teste.com\",\"phone\": \"1234567890\",\"first_name\" : \"Diego_Test\",\"last_name\" : \"Blasquez\"}"))
+        .andExpect(status().isUnauthorized());
+		
+	 }
+	
+	@Test
+    @Order(10)
+    @DisplayName("GET Trainer Unauthorizedr")
+    void getTrainerUnauthorized() throws Exception{
+		mockMvc.perform(get("/trainers/trainer-id-000001"))
+        	.andExpect(status().isUnauthorized());
 	}
 }
